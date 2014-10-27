@@ -5,9 +5,16 @@
             this.name = name;
             this.symbol = symbol
             this.score = 0;
+            this.gamePoints = 0;
         },
         addPoint: function() {
-            this.score =+ 1;
+            this.score = this.score + 1;
+        },
+        addGamePoints: function(num) {
+            this.gamePoints = this.gamePoints + num;
+        },
+        emptyGamePoints: function() {
+            this.gamePoints = 0;
         }
     });
 
@@ -30,6 +37,14 @@
             [0,0,0],
             [0,0,0]
         ],
+
+        points: [
+            [1,8,64],
+            [2,16,128],
+            [4,32,256]
+        ],
+
+        wins: [7, 56, 448, 73, 146, 292, 273, 84],
 
         el: $('#content'),
 
@@ -58,14 +73,26 @@
             var cursorPos = this.getCoordinates(event);
             var self = this;
             this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.currentPlayer, function() {
-                self.switchPlayers();
                 self.moves++;
 
-                if (self.moves == 9) {
-                    alert('new game!');
+                if(self.isWin(self.currentPlayer.gamePoints)) {
+                    alert(self.currentPlayer.name + ' Wins!');
+                    self.currentPlayer.addPoint();
+                    self.updateScore();
                     self.startNewGame();
                 }
+                if (self.moves == 9) {
+                    alert('Draw Game!');
+                    self.startNewGame();
+                }
+
+                self.switchPlayers();
             });
+        },
+
+        updateScore: function() {
+            $('#player1-score').html(this.player1.score);
+            $('#player2-score').html(this.player2.score);
         },
 
         switchPlayers: function(event) {
@@ -80,8 +107,26 @@
 
         },
 
+        isWin: function(points) {
+            for(var i=0;i<this.wins.length;i++) {
+                if((this.wins[i] & points) === this.wins[i]) {
+                    return true;
+                }
+            }
+            return false;
+        },
+
         startNewGame: function() {
-            moves = 0;
+            this.moves = 0;
+            this.player1.emptyGamePoints();
+            this.player2.emptyGamePoints();
+
+            for(var i=0;i<3;i++) {
+                for(var j=0;j<3;j++) {
+                    this.gameStatus[i][j] = 0;
+                }
+            }
+
             $('#board-svg').html('');
             this.render();
         },
@@ -121,7 +166,11 @@
             if(this.gameStatus[boardPosX][boardPosY] !== 0) {
                 return;
             }
+            //update game status
             this.gameStatus[boardPosX][boardPosY] = player.symbol;
+
+            //add game points to player
+            player.addGamePoints(this.points[boardPosX][boardPosY]);
 
             //next insert position
             position = this.boardPositions[boardPosX][boardPosY];
