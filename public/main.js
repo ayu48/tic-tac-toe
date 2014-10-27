@@ -25,6 +25,12 @@
             [{x: 280, y: 0}, {x: 280, y: 140}, {x: 280, y: 280}]
         ],
 
+        gameStatus: [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ],
+
         el: $('#content'),
 
         events: {
@@ -110,6 +116,13 @@
             while(y > ((boardPosY+1) * this.sqrLength)) {
                 boardPosY++;
             }
+
+            //check if spot already taken;
+            if(this.gameStatus[boardPosX][boardPosY] !== 0) {
+                return;
+            }
+            this.gameStatus[boardPosX][boardPosY] = player.symbol;
+
             //next insert position
             position = this.boardPositions[boardPosX][boardPosY];
 
