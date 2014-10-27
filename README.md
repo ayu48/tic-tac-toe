@@ -1,6 +1,6 @@
 tic-tac-toe
 ===========
 
-tic-tac-toe exercise
+http://blueteeth48.github.io/tic-tac-toe/
 
 single page - backbone
