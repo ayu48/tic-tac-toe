@@ -12,6 +12,7 @@
     });
 
     var TicTacToeView = Backbone.View.extend({
+        moves: 0,
         currentPlayer: null,
         player1: null,
         player2: null,
@@ -49,8 +50,16 @@
 
         positionSelected: function(event) {
             var cursorPos = this.getCoordinates(event);
-            this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.currentPlayer);
-            this.switchPlayers();
+            var self = this;
+            this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.currentPlayer, function() {
+                self.switchPlayers();
+                self.moves++;
+
+                if (self.moves == 9) {
+                    alert('new game!');
+                    self.startNewGame();
+                }
+            });
         },
 
         switchPlayers: function(event) {
@@ -63,6 +72,12 @@
                 this.currentPlayer = this.player1;
             }
 
+        },
+
+        startNewGame: function() {
+            moves = 0;
+            $('#board-svg').html('');
+            this.render();
         },
 
         getCoordinates: function(event) {
@@ -82,7 +97,7 @@
             return [posX, posY];
         },
 
-        addSymbolToBoard: function(x, y, player) {
+        addSymbolToBoard: function(x, y, player, cb) {
             var boardPosX = 0;
             var boardPosY = 0;
             var svgFile;
@@ -108,6 +123,7 @@
             Snap.load(svgFile, function(f) {
                 $(f.node).attr({x:position.x, y: position.y, width: 120, height: 120});
                 this.boardSvg.append(f);
+                cb();
             }, this);
 
         }
