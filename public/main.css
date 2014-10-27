@@ -42,12 +42,21 @@ html,body {
 }
 
 .player-body {
+    font-size: 30px;
     margin-top: 30px;
     opacity: 0.3;
 }
 
+.player-body div {
+    display: none;
+}
+
 .player-body.current {
     opacity: 1;
+}
+
+.player-body.current div {
+    display: inline;
 }
 
 .board{
@@ -81,4 +90,9 @@ html,body {
 
 .green {
     color: #00B2AA;
+}
+
+.white {
+    color: #ECECF0;
+    font-weight: 400;
 }

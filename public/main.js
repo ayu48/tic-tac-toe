@@ -12,6 +12,7 @@
     });
 
     var TicTacToeView = Backbone.View.extend({
+        currentPlayer: null,
         player1: null,
         player2: null,
         sqrLength: 133,
@@ -32,6 +33,7 @@
         initialize: function() {
             this.player1 = new User('Player 1', 'o');
             this.player2 = new User('Player 2', 'x');
+            this.currentPlayer = this.player1;
             this.render();
         },
 
@@ -47,7 +49,20 @@
 
         positionSelected: function(event) {
             var cursorPos = this.getCoordinates(event);
-            this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.player1);
+            this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.currentPlayer);
+            this.switchPlayers();
+        },
+
+        switchPlayers: function(event) {
+            $('.current').removeClass('current');
+            if (this.currentPlayer == this.player1) {
+                $('#player2 .player-body').addClass('current');
+                this.currentPlayer = this.player2;
+            } else {
+                $('#player1 .player-body').addClass('current');
+                this.currentPlayer = this.player1;
+            }
+
         },
 
         getCoordinates: function(event) {
