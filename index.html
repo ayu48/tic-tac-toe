@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-framework="backbonejs">
+    <head>
+        <meta charset="utf-8">
+        <title>tic tac toe</title>
+        <link href='http://fonts.googleapis.com/css?family=Rajdhani:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="public/main.css">
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                TIC TAC TOE
+            </div>
+            <div id="content">
+                <div id="player1" class="player">
+                    <div class="name">player 1</div>
+                    <div class="player-body current">
+                        <img src="public/img/c.svg"/>
+                    </div>
+                </div>
+
+                <div class="board">
+                    <svg id="board-svg" height="400" width="400">
+                    </svg>
+                    <!---
+                    <svg id="board-svg" version="1.1" viewBox="0.0 0.0 600.0 600.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <clipPath id="p.0"><path d="m0 0l600.0 0l0 600.0l-600.0 0l0 -600.0z" clip-rule="nonzero"></path></clipPath><g clip-path="url(#p.0)"><path fill="#000000" fill-opacity="0.0" d="m0 0l600.0 0l0 600.0l-600.0 0z" fill-rule="nonzero"></path><path fill="#000000" fill-opacity="0.0" d="m192.30865 0l0 600.0" fill-rule="nonzero"></path><path stroke="#ececf0" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="butt" d="m192.30865 0l0 600.0" fill-rule="nonzero"></path><path fill="#000000" fill-opacity="0.0" d="m407.6945 0l0 600.0" fill-rule="nonzero"></path><path stroke="#ececf0" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="butt" d="m407.6945 0l0 600.0" fill-rule="nonzero"></path><path fill="#000000" fill-opacity="0.0" d="m600.0016 192.30708l-600.0 0" fill-rule="nonzero"></path><path stroke="#ececf0" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="butt" d="m600.0016 192.30708l-600.0 0" fill-rule="nonzero"></path><path fill="#000000" fill-opacity="0.0" d="m600.0016 407.6929l-600.0 0" fill-rule="nonzero"></path><path stroke="#ececf0" stroke-width="8.0" stroke-linejoin="round" stroke-linecap="butt" d="m600.0016 407.6929l-600.0 0" fill-rule="nonzero"></path></g>
+                        <image x="10" y="10" height="170" width="170" xlink:href="public/img/c.svg"/>
+                    </svg>
+                    --->
+                </div>
+
+                <div id="player2" class="player">
+                    <div class="name">player 2</div>
+                    <div class="player-body">
+                        <img src="public/img/x.svg"/>
+                    </div>
+                </div>
+            </div>
+            <div class="score">
+                Score<br/>
+                <div class="pink">0</div> - <div class="green">0</div>
+            </div>
+        </div>
+    </body>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="bower_components/snap-svg/snap.svg.js"></script>
+    <script src="public/main.js"></script>
+</html>

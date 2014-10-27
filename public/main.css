@@ -1,0 +1,84 @@
+html,body {
+    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    height: 100%;
+    background-color: #273B3F;
+}
+
+#container {
+    width: 920px;
+    height: auto;
+    margin: 0 auto;
+}
+
+#header {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    color: #ECECF0;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+}
+
+#content {
+    width: 100%;
+    display: block;
+    overflow: auto;
+    margin-bottom: 30px;
+}
+
+.player {
+    width: 200px;
+    float: left;
+    text-align: center;
+}
+
+.name {
+    background-color: #ECECF0;
+    line-height: 40px;
+    color: #273B3F;
+    font-size: 25px;
+}
+
+.player-body {
+    margin-top: 30px;
+    opacity: 0.3;
+}
+
+.player-body.current {
+    opacity: 1;
+}
+
+.board{
+    margin-top: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+    width: 400px;
+    float: left;
+    text-align: center;
+}
+
+.score {
+    background-color: #ECECF0;
+    clear: both;
+    text-align: center;
+    color: #273B3F;
+    font-size: 25px;
+    width: 250px;
+    margin-top: 30px;
+    margin: 0 auto;
+}
+
+.score div {
+    display: inline;
+    font-weight: bold;
+}
+
+.pink {
+    color: #EB5C62;
+}
+
+.green {
+    color: #00B2AA;
+}
