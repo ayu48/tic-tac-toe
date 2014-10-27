@@ -73,7 +73,7 @@
         positionSelected: function(event) {
             var cursorPos = this.getCursorPosition(event);
             var self = this;
-            this.addMoveToBoard(cursorPos[0], cursorPos[1], this.currentPlayer, function() {
+            this.addMoveToBoard(cursorPos[0], cursorPos[1], function() {
                 self.moves++;
 
                 //check if its a winning move
@@ -155,25 +155,25 @@
             return [posX, posY];
         },
 
-        addMoveToBoard: function(x, y, player, cb) {
+        addMoveToBoard: function(x, y, cb) {
             var squarePos = this.getSquareCoordinates(x, y);
             var svgFile;
 
             //check if spot already taken;
-            if(this.gameStatus[squarePos.x][squarePos.y] !== 0) {
+            if(this.spotAlreadyTaken(squarePos.x, squarePos.y)) {
                 return;
             }
             //update game status
-            this.gameStatus[squarePos.x][squarePos.y] = player.symbol;
+            this.gameStatus[squarePos.x][squarePos.y] = this.currentPlayer.symbol;
 
             //add game points to player
-            player.addGamePoints(this.points[squarePos.x][squarePos.y]);
+            this.currentPlayer.addGamePoints(this.points[squarePos.x][squarePos.y]);
 
             //next insert position
-            position = this.boardPositions[squarePos.x][squarePos.y];
+            var position = this.boardPositions[squarePos.x][squarePos.y];
 
             //get svg file
-            if(player.symbol == "x") {
+            if(this.currentPlayer.symbol == "x") {
                 svgFile = ("./public/img/x.svg");
             } else {
                 svgFile = ("./public/img/c.svg");
@@ -185,6 +185,10 @@
                 cb();
             }, this);
 
+        },
+
+        spotAlreadyTaken: function(x, y) {
+            return this.gameStatus[x][y] !== 0;
         },
 
         getSquareCoordinates: function(x, y) {
