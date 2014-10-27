@@ -62,6 +62,7 @@
         render: function() {
             this.boardSvg = Snap('#board-svg');
 
+            // load tic-tac-toe board
             Snap.load("./public/img/board.svg", function(f) {
                 this.boardSvg.append(f);
             }, this);
@@ -70,17 +71,20 @@
         },
 
         positionSelected: function(event) {
-            var cursorPos = this.getCoordinates(event);
+            var cursorPos = this.getCursorPosition(event);
             var self = this;
-            this.addSymbolToBoard(cursorPos[0], cursorPos[1], this.currentPlayer, function() {
+            this.addMoveToBoard(cursorPos[0], cursorPos[1], this.currentPlayer, function() {
                 self.moves++;
 
+                //check if its a winning move
                 if(self.isWin(self.currentPlayer.gamePoints)) {
                     alert(self.currentPlayer.name + ' Wins!');
                     self.currentPlayer.addPoint();
                     self.updateScore();
                     self.startNewGame();
                 }
+
+                //check if out of moves
                 if (self.moves == 9) {
                     alert('Draw Game!');
                     self.startNewGame();
@@ -121,26 +125,29 @@
             this.player1.emptyGamePoints();
             this.player2.emptyGamePoints();
 
+            //reset game status
             for(var i=0;i<3;i++) {
                 for(var j=0;j<3;j++) {
                     this.gameStatus[i][j] = 0;
                 }
             }
 
+            //empty & render board
             $('#board-svg').html('');
             this.render();
         },
 
-        getCoordinates: function(event) {
+        getCursorPosition: function(event) {
             var posX = event.pageX;
             var posY = event.pageY;
-            var imgPos = this.findPosition($('#board-svg')[0]);
-            posX = posX - imgPos[0];
-            posY = posY - imgPos[1];
+            var boardPos = this.findBoardPosition();
+            posX = posX - boardPos[0];
+            posY = posY - boardPos[1];
             return [posX, posY];
         },
 
-        findPosition: function(element) {
+        findBoardPosition: function() {
+            var element = $('#board-svg')[0];
             for (var posX = 0, posY = 0; element; element = element.offsetParent) {
                 posX += element.offsetLeft;
                 posY += element.offsetTop;
@@ -148,32 +155,22 @@
             return [posX, posY];
         },
 
-        addSymbolToBoard: function(x, y, player, cb) {
-            var boardPosX = 0;
-            var boardPosY = 0;
+        addMoveToBoard: function(x, y, player, cb) {
+            var squarePos = this.getSquareCoordinates(x, y);
             var svgFile;
 
-            //get x position
-            while(x > ((boardPosX+1) * this.sqrLength)) {
-                boardPosX++;
-            }
-            //get y position
-            while(y > ((boardPosY+1) * this.sqrLength)) {
-                boardPosY++;
-            }
-
             //check if spot already taken;
-            if(this.gameStatus[boardPosX][boardPosY] !== 0) {
+            if(this.gameStatus[squarePos.x][squarePos.y] !== 0) {
                 return;
             }
             //update game status
-            this.gameStatus[boardPosX][boardPosY] = player.symbol;
+            this.gameStatus[squarePos.x][squarePos.y] = player.symbol;
 
             //add game points to player
-            player.addGamePoints(this.points[boardPosX][boardPosY]);
+            player.addGamePoints(this.points[squarePos.x][squarePos.y]);
 
             //next insert position
-            position = this.boardPositions[boardPosX][boardPosY];
+            position = this.boardPositions[squarePos.x][squarePos.y];
 
             //get svg file
             if(player.symbol == "x") {
@@ -188,6 +185,21 @@
                 cb();
             }, this);
 
+        },
+
+        getSquareCoordinates: function(x, y) {
+            var boardPosX = 0;
+            var boardPosY = 0;
+
+            //get x position
+            while(x > ((boardPosX+1) * this.sqrLength)) {
+                boardPosX++;
+            }
+            //get y position
+            while(y > ((boardPosY+1) * this.sqrLength)) {
+                boardPosY++;
+            }
+            return {x: boardPosX, y: boardPosY};
         }
 
     });
